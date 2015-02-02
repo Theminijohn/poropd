@@ -1,0 +1,28 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700,900);
+
+$body-bg:                    #fff;
+$font-family-sans-serif:     'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$navbar-height:              45px;
+$navbar-default-bg:          white;
+$navbar-default-brand-color: #3498db;
+$brand-primary:              #3498db;
+$jumbotron-bg:               white;
+
+$text-color:                 #59585b;
+
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+@import 'font-awesome';
+@import 'ionicons';
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  a:active, a:hover {
+    outline: 0;
+  }
+  ::selection {
+    background: #78b23f;
+    color: #ffffff;
+  }
+}
