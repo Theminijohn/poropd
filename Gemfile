@@ -20,6 +20,9 @@ gem 'autoprefixer-rails'
 gem 'font-awesome-rails', '~> 4.3.0.0'
 gem 'ionicons-rails'
 
+# API
+gem 'unirest'
+
 group :development, :test do
   gem 'byebug'
   gem 'spring'
