@@ -1,0 +1,97 @@
+<div class="row">
+  
+  <!-- Stream Container -->
+  <div class="col-md-9">
+    <div class="StreamContainer embed-responsive embed-responsive-16by9">
+      <object type="application/x-shockwave-flash" data="https://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf?channel=<%= @streamer.twitch_username%>">
+          <param name="allowFullScreen" value="true">
+          <param name="allowScriptAccess" value="always">
+          <param name="allowNetworking" value="all">
+          <param name="movie" value="https://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf">
+          <param name="flashvars" value="hostname=www.twitch.tv&amp;channel=<%= @streamer.twitch_username%>&amp;auto_play=true&amp;start_volume=45">
+      </object>
+    </div>
+  </div>
+
+  <!-- Streamer Info -->
+  <div class="col-md-3">
+    <p>
+      <strong>Twitch username:</strong>
+      <%= @streamer.twitch_username %>
+    </p>
+
+    <p>
+      <strong>Name:</strong>
+      <%= @streamer.name %>
+    </p>
+
+    <p>
+      <strong>Server:</strong>
+      <%= @streamer.server %>
+    </p>
+
+    <p>
+      <strong>Slug:</strong>
+      <%= @streamer.slug %>
+    </p>
+
+    <p>
+      <strong>League ign:</strong>
+      <%= @streamer.league_ign %>
+    </p>
+
+    <p>
+      <strong>League:</strong>
+      <%= @streamer.league_id %>
+    </p>
+
+    <p>
+      <strong>Division:</strong>
+      <%= @streamer.division %>
+    </p>
+
+    <p>
+      <strong>Tier:</strong>
+      <%= @streamer.tier %>
+    </p>
+
+    <p>
+      <strong>League points:</strong>
+      <%= @streamer.league_points %>
+    </p>
+
+    <p>
+      <strong>Current wins:</strong>
+      <%= @streamer.current_wins %>
+    </p>
+
+    <p>
+      <strong>Current losses:</strong>
+      <%= @streamer.current_losses %>
+    </p>
+
+    <p>
+      <strong>Is hot streak:</strong>
+      <%= @streamer.is_hot_streak %>
+    </p>
+
+    <p>
+      <strong>Is veteran:</strong>
+      <%= @streamer.is_veteran %>
+    </p>
+
+    <p>
+      <strong>Is fresh blood:</strong>
+      <%= @streamer.is_fresh_blood %>
+    </p>
+
+    <p>
+      <strong>Is inactive:</strong>
+      <%= @streamer.is_inactive %>
+    </p>
+
+    <%= link_to 'Edit', edit_streamer_path(@streamer) %> |
+    <%= link_to 'Back', streamers_path %>
+  </div>
+
+</div>

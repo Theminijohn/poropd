@@ -1,0 +1,77 @@
+<%= form_for(@streamer) do |f| %>
+  <% if @streamer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@streamer.errors.count, "error") %> prohibited this streamer from being saved:</h2>
+
+      <ul>
+      <% @streamer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :twitch_username %><br>
+    <%= f.text_field :twitch_username %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :server %><br>
+    <%= f.text_field :server %>
+  </div>
+  <div class="field">
+    <%= f.label :slug %><br>
+    <%= f.text_field :slug %>
+  </div>
+  <div class="field">
+    <%= f.label :league_ign %><br>
+    <%= f.text_field :league_ign %>
+  </div>
+  <div class="field">
+    <%= f.label :league_id %><br>
+    <%= f.number_field :league_id %>
+  </div>
+  <div class="field">
+    <%= f.label :division %><br>
+    <%= f.text_field :division %>
+  </div>
+  <div class="field">
+    <%= f.label :tier %><br>
+    <%= f.text_field :tier %>
+  </div>
+  <div class="field">
+    <%= f.label :league_points %><br>
+    <%= f.number_field :league_points %>
+  </div>
+  <div class="field">
+    <%= f.label :current_wins %><br>
+    <%= f.number_field :current_wins %>
+  </div>
+  <div class="field">
+    <%= f.label :current_losses %><br>
+    <%= f.number_field :current_losses %>
+  </div>
+  <div class="field">
+    <%= f.label :is_hot_streak %><br>
+    <%= f.check_box :is_hot_streak %>
+  </div>
+  <div class="field">
+    <%= f.label :is_veteran %><br>
+    <%= f.check_box :is_veteran %>
+  </div>
+  <div class="field">
+    <%= f.label :is_fresh_blood %><br>
+    <%= f.check_box :is_fresh_blood %>
+  </div>
+  <div class="field">
+    <%= f.label :is_inactive %><br>
+    <%= f.text_field :is_inactive %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
