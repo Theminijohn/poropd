@@ -29,7 +29,7 @@ class Streamer < ActiveRecord::Base
   # end
 
   def division_info
-    "#{self.tier.downcase.capitalize} #{self.division}"
+    # "#{self.tier.downcase.capitalize} #{self.division}"
   end
 
 
