@@ -1,23 +1,45 @@
-<div id="timeUm"></div>
-<div id="timeDois"></div>
+<div id="currentGameBox"></div>
 
+<hr>
+
+<h1>Game in Progress</h1>
+<label>
+  <input type="text" name="nome" id="nome" placeholder="Summoner Name" />
+  <select id="server" name="server" title="Server">
+    <option value="EUW">EUW</option>
+    <option value="EUNE">EUNE</option>
+    <option value="NA">NA</option>
+    <option value="TR">TR</option>
+    <option value="RU">RU</option>
+    <option value="OCE">OCE</option>
+    <option value="LES">LES</option>
+    <option value="LAN">LAN</option>
+    <option value="BR" selected>BR</option>
+  </select>
+  <button>Search</button>
+</label>
+
+<div id="teamOne"></div>
+<div id="teamTwo"></div>
 
 <script type="text/javascript">
-
-  function requisicao(acao, id, callback, erro)
-  {
-    var url = "retrieveInProgressSpectatorGameInfo/";
+  function getGameInfo(acao, id, callback, erro) {
+    var url = '';
+    if(acao == 'time') url = "retrieveInProgressSpectatorGameInfo/";
+    else if(acao == 'liga') url = "getLeagueForPlayer/";
+    else if(acao == 'stats') url = "retrievePlayerStatsByAccountId/";
+    else if(acao == 'nivel') url = "getSummonerByName/";
+    else if(acao == 'champs') url = "retrieveTopPlayedChampions/";
+    
     var server = $('#server').val();
     
     $.ajax({
       type: "GET",
-      url: "https://community-league-of-legends.p.mashape.com/api/v1.0/<%= @streamer.server %>/summoner/"+url+"/"+"<%= @streamer.league_ign %>",
-      headers: {"X-Mashape-Authorization" : "<%= Settings.mashape.api_key %>"}
+      url: "https://community-league-of-legends.p.mashape.com/api/v1.0/"+server+"/summoner/"+url+"/"+id,
+      headers: {"X-Mashape-Authorization" : "SsNckuwRAv3hFUeM6LHwrG8Ub3WEKXBP"}
     })
     .done(function( result ) {
       callback(result);
-      console.log(result);
-      debugger
     })
     .error(function(){
       erro();
@@ -27,8 +49,7 @@
   var contaLiga = 0;
   var contaStats = 0;
 
-  function ordenarPlayers()
-  {
+  function ordenarPlayers() {
     if(contaLiga == 10 && contaStats == 10)
     {
       $('.summoner').tsort({sortFunction:function(a,b){
@@ -59,16 +80,14 @@
     else window.setTimeout(function(){ordenarPlayers();}, 1000);
   }
 
-  function salvarCache()
-  {
-    localStorage.setItem('TimeUm', $('#timeUm').html());
-    localStorage.setItem('TimeDois', $('#timeDois').html());
+  function salvarCache() {
+    localStorage.setItem('TeamOne', $('#teamOne').html());
+    localStorage.setItem('TeamTwo', $('#teamTwo').html());
     localStorage.setItem('Invocador', $('#nome').val());
     localStorage.setItem('Servidor', $('#server').val());
   }
 
-  function traduz(string)
-  {
+  function traduz(string) {
     switch(string)
     {
       case 'Unranked': return 'PvP';
@@ -78,8 +97,7 @@
     }
   }
 
-  function getChamp(players, nome)
-  {
+  function getChamp(players, nome) {
     for(var i in players)
     {
       if(players[i].summonerInternalName == nome)
@@ -88,16 +106,14 @@
     
   }
 
-  function tratarNome(novoElem, summonerName)
-  {
-    requisicao('nivel',+summonerName, function(data){
+  function tratarNome(novoElem, summonerName) {
+    getGameInfo('nivel',+summonerName, function(data){
         if(data != null) novoElem.find('h1').attr('title', 'Nível '+data.summonerLevel+'');
       });
   }
 
-  function tratarLiga(novoElem, summonerId)
-  {
-    requisicao('liga', summonerId, function(data){
+  function tratarLiga(novoElem, summonerId) {
+    getGameInfo('liga', summonerId, function(data){
         if(data.error != null) novoElem.prepend('<div class="liga" title=""><span title="0"></span></div>');        
         else 
         {
@@ -108,9 +124,8 @@
       });
   }
 
-  function tratarStats(novoElem, accountId)
-  {
-    requisicao('stats', accountId, function(data){
+  function tratarStats(novoElem, accountId) {
+    getGameInfo('stats', accountId, function(data){
         stats = data.playerStatSummaries.playerStatSummarySet.array;
         var st = {};
         for(var i in stats)
@@ -149,9 +164,50 @@
       });
   }
 
+  function tratarChamps(novoElem, accountId, champAtual) {
+    getGameInfo('champs', accountId, function(data){
+      var array = data;
 
-  function tratarPlayer(idElem, jogador, selecao)
-  {
+      var campeao = [];
+      
+      for(var i in array)
+      {      
+        champid = array[i].championId;
+        stat = array[i].stats.array;
+        
+        campeao[champid] = {};
+        campeao[champid].campeao = champid;      
+        
+        for(var x in stat)
+        {
+          var s = stat[x].statType;
+          campeao[champid][s] = stat[x].value;
+        }
+        
+      }
+      
+      campeao.sort(function(a, b){
+        return b.TOTAL_SESSIONS_PLAYED - a.TOTAL_SESSIONS_PLAYED;
+      });
+      
+      var string = '';
+      for(var i in campeao)
+      {
+          string += '<li title="Kills: '+campeao[i].MAX_CHAMPIONS_KILLED+' Deaths: '+campeao[i].MAX_NUM_DEATHS+'"><img src="http://lkimg.zamimg.com/shared/riot/images/champions/'+campeao[i].campeao+'_32.png"><span class="percent">'+Math.floor((campeao[i].MAX_CHAMPIONS_KILLED / campeao[i].MAX_NUM_DEATHS)*100)+'%</span></li>';
+      } 
+        
+        novoElem.find('.champs').append(string);
+      
+        for(var i in campeao) 
+          if(campeao[i].campeao == champAtual)
+          {
+            novoElem.find('.champ .percent').text(Math.floor((campeao[i].MAX_CHAMPIONS_KILLED / campeao[i].MAX_NUM_DEATHS)*100)+'%').attr('title', 'Kills: '+campeao[i].MAX_CHAMPIONS_KILLED+' Deaths: '+campeao[i].MAX_NUM_DEATHS);
+            break;
+          }
+      });
+  }
+
+  function tratarPlayer(idElem, jogador, selecao) {
     var champ = getChamp(selecao, jogador.summonerInternalName);
     var string = '<a class="summoner" href="http://www.lolking.net/summoner/br/'+jogador.summonerId+'" target="_blank">'
           + '<div class="champ">'
@@ -170,16 +226,15 @@
     tratarChamps(novoElem, jogador.accountId, champ.id);
   }
 
-  function tratarTime(game)
-  {
+  function tratarTime(game) {
     var time1 = game.teamOne.array;
     var time2 = game.teamTwo.array;
     var selecao = game.playerChampionSelections.array;
     
-    $('#timeUm').html('<h2>'+game.gameType+'</h2>'); 
+    $('#teamOne').html('<h2>'+game.gameType+'</h2>'); 
     
-    for(var i in time1){tratarPlayer('#timeUm', time1[i], selecao);}
-    for(var i in time2){tratarPlayer('#timeDois', time2[i], selecao);}
+    for(var i in time1){tratarPlayer('#teamOne', time1[i], selecao);}
+    for(var i in time2){tratarPlayer('#teamTwo', time2[i], selecao);}
     
     ordenarPlayers();
     
@@ -190,10 +245,10 @@
     }, 20000)
   }
 
-  function tratarSingle(nick)
-  {
-    requisicao('nivel', nick, function(data){
-      var string = '<a class="summoner" href="http://www.lolking.net/summoner/br/'+data.summonerId+'" target="_blank">'
+  function individualPlayer(nick) {
+    getGameInfo('nivel', nick, function(data){
+      var string = 
+        '<a class="summoner" href="http://www.lolking.net/summoner/br/'+data.summonerId+'" target="_blank">'
         + '<div class="champ">'
         + '<span class="percent"></span>'
         + '<img src = "http://lkimg.zamimg.com/shared/riot/images/profile_icons/profileIcon'+data.profileIconId+'.jpg" width="32" height="32"/></div>'
@@ -202,7 +257,7 @@
         + '<h4>Most Played</h4>'
         + '<ul class="champs"></ul>'
         + '</a>';
-      novoElem = $(string).appendTo('#timeUm');
+      novoElem = $(string).appendTo('#teamOne');
       
       tratarLiga(novoElem, data.summonerId);
       tratarStats(novoElem, data.acctId);
@@ -210,46 +265,45 @@
     });
   }
 
-  function executar()
-  {
-    $('#timeUm, #timeDois').html('');
+  function execute() {
+    $('#teamOne, #teamTwo').html('');
     var nick = $('#nome').val();
-    $('#timeUm').html('<h2>Updating Game...</h2>'); 
-    requisicao('time', nick, function(data){
+    $('#teamOne').html('<h2>Searching <strong>'+nick+'\'s</strong> game, wait...</h2>'); 
+    getGameInfo('time', nick, function(data){
       if(data.error != null)
       { 
-        $('#timeUm').html('<h2>Not in game</h2>'); 
-        tratarSingle(nick);
+        $('#teamOne').html('<h2>Not in game</h2>'); 
+        individualPlayer(nick);
       }
       else 
       { 
         tratarTime(data.game); 
       }
     }, function(xhr, type){
-      $('#timeUm').html('<h2>An error has occurred!</h2>'); 
+      $('#teamOne').html('<h2>An error has occurred!</h2>'); 
     });  
   }
 
   (function(){
-    var teste = localStorage.getItem('TimeUm');
+    var teste = localStorage.getItem('TeamOne');
     if(!teste){}
     else
     {
-      $('#timeUm').html(localStorage.getItem('TimeUm'));
-      $('#timeDois').html(localStorage.getItem('TimeDois'));
+      $('#teamOne').html(localStorage.getItem('TeamOne'));
+      $('#teamTwo').html(localStorage.getItem('TeamTwo'));
       $('#nome').val(localStorage.getItem('Invocador')).select();
       $('#server').val(localStorage.getItem('Servidor'));
     }
   })();
 
-  // $('input').keypress(function(e) {
-  //   if(e.which == 13)
-  //   { 
-  //     executar(); 
-  //     $('#updateObserver').focus();
-  //   }
-  // })
-  // $('#updateObserver').on('click', function(){
-  //   executar()
-  // });
+  $('input').keypress(function(e) {
+    if(e.which == 13)
+    { 
+      execute(); 
+      $('button').focus();
+    }
+  })
+  $('button').on('click', function(){
+    execute()
+  });
 </script>
