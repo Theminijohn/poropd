@@ -19,11 +19,11 @@
   <button>Search</button>
 </label>
 
-<div id="teamOne"></div>
-<div id="teamTwo"></div>
+<div id="timeUm"></div>
+<div id="timeDois"></div>
 
 <script type="text/javascript">
-  function getGameInfo(acao, id, callback, erro) {
+  function requisicao(acao, id, callback, erro) {
     var url = '';
     if(acao == 'time') url = "retrieveInProgressSpectatorGameInfo/";
     else if(acao == 'liga') url = "getLeagueForPlayer/";
@@ -31,12 +31,16 @@
     else if(acao == 'nivel') url = "getSummonerByName/";
     else if(acao == 'champs') url = "retrieveTopPlayedChampions/";
     
-    var server = $('#server').val();
+    var server = 'na'
     
     $.ajax({
       type: "GET",
-      url: "https://community-league-of-legends.p.mashape.com/api/v1.0/"+server+"/summoner/"+url+"/"+id,
-      headers: {"X-Mashape-Authorization" : "SsNckuwRAv3hFUeM6LHwrG8Ub3WEKXBP"}
+      url: "https://community-league-of-legends.p.mashape.com/api/v1.0/"+server+"/summoner/"+url+id,
+      headers: {
+        "X-Mashape-Key": "fWHATMLSpOmshMYYLUPE8Mlkfit1p1WcTkDjsnF72ptoyBBrVG",
+        "Access-Control-Allow-Origin": "*",
+        "Accept": "text/plain"
+      }
     })
     .done(function( result ) {
       callback(result);
@@ -81,8 +85,8 @@
   }
 
   function salvarCache() {
-    localStorage.setItem('TeamOne', $('#teamOne').html());
-    localStorage.setItem('TeamTwo', $('#teamTwo').html());
+    localStorage.setItem('TimeUm', $('#timeUm').html());
+    localStorage.setItem('TimeDois', $('#timeDois').html());
     localStorage.setItem('Invocador', $('#nome').val());
     localStorage.setItem('Servidor', $('#server').val());
   }
@@ -103,17 +107,16 @@
       if(players[i].summonerInternalName == nome)
         return {'id': players[i].championId, 'skin': players[i].selectedSkinIndex};
     }
-    
   }
 
   function tratarNome(novoElem, summonerName) {
-    getGameInfo('nivel',+summonerName, function(data){
+    requisicao('nivel',+summonerName, function(data){
         if(data != null) novoElem.find('h1').attr('title', 'Nível '+data.summonerLevel+'');
       });
   }
 
   function tratarLiga(novoElem, summonerId) {
-    getGameInfo('liga', summonerId, function(data){
+    requisicao('liga', summonerId, function(data){
         if(data.error != null) novoElem.prepend('<div class="liga" title=""><span title="0"></span></div>');        
         else 
         {
@@ -124,8 +127,8 @@
       });
   }
 
-  function tratarStats(novoElem, accountId) {
-    getGameInfo('stats', accountId, function(data){
+  function tratarStats(novoElem, accountId){
+    requisicao('stats', accountId, function(data){
         stats = data.playerStatSummaries.playerStatSummarySet.array;
         var st = {};
         for(var i in stats)
@@ -165,7 +168,7 @@
   }
 
   function tratarChamps(novoElem, accountId, champAtual) {
-    getGameInfo('champs', accountId, function(data){
+    requisicao('champs', accountId, function(data){
       var array = data;
 
       var campeao = [];
@@ -231,10 +234,10 @@
     var time2 = game.teamTwo.array;
     var selecao = game.playerChampionSelections.array;
     
-    $('#teamOne').html('<h2>'+game.gameType+'</h2>'); 
+    $('#timeUm').html('<h2>'+game.gameType+'</h2>'); 
     
-    for(var i in time1){tratarPlayer('#teamOne', time1[i], selecao);}
-    for(var i in time2){tratarPlayer('#teamTwo', time2[i], selecao);}
+    for(var i in time1){tratarPlayer('#timeUm', time1[i], selecao);}
+    for(var i in time2){tratarPlayer('#timeDois', time2[i], selecao);}
     
     ordenarPlayers();
     
@@ -245,19 +248,18 @@
     }, 20000)
   }
 
-  function individualPlayer(nick) {
-    getGameInfo('nivel', nick, function(data){
-      var string = 
-        '<a class="summoner" href="http://www.lolking.net/summoner/br/'+data.summonerId+'" target="_blank">'
-        + '<div class="champ">'
+  function tratarSingle(nick) {
+    requisicao('nivel', nick, function(data){
+      var string = '<a class="summoner" href="http://www.lolking.net/summoner/br/'+data.summonerId+'" target="_blank">'
+            + '<div class="champ">'
         + '<span class="percent"></span>'
         + '<img src = "http://lkimg.zamimg.com/shared/riot/images/profile_icons/profileIcon'+data.profileIconId+'.jpg" width="32" height="32"/></div>'
-        + '<h3>'+data.name+'</h3>'  
-        + '<ul class="vit" title="Wins"></ul>'
+            + '<h3>'+data.name+'</h3>'  
+            + '<ul class="vit" title="Wins"></ul>'
         + '<h4>Most Played</h4>'
         + '<ul class="champs"></ul>'
-        + '</a>';
-      novoElem = $(string).appendTo('#teamOne');
+            + '</a>';
+      novoElem = $(string).appendTo('#timeUm');
       
       tratarLiga(novoElem, data.summonerId);
       tratarStats(novoElem, data.acctId);
@@ -265,32 +267,34 @@
     });
   }
 
-  function execute() {
-    $('#teamOne, #teamTwo').html('');
+  function executar() {
+    $('#timeUm, #timeDois').html('');
     var nick = $('#nome').val();
-    $('#teamOne').html('<h2>Searching <strong>'+nick+'\'s</strong> game, wait...</h2>'); 
-    getGameInfo('time', nick, function(data){
+    $('#timeUm').html('<h2>Searching <strong>'+nick+'\'s</strong> game, wait...</h2>'); 
+    requisicao('time', nick, function(data){
       if(data.error != null)
       { 
-        $('#teamOne').html('<h2>Not in game</h2>'); 
-        individualPlayer(nick);
+        $('#timeUm').html('<h2>Not in game</h2>'); 
+        document.title = 'Not in game'; 
+        tratarSingle(nick);
       }
       else 
       { 
         tratarTime(data.game); 
+        document.title = "<strong>"+nick+"'s</strong> Game"; 
       }
     }, function(xhr, type){
-      $('#teamOne').html('<h2>An error has occurred!</h2>'); 
+      $('#timeUm').html('<h2>An error has occurred!</h2>'); 
     });  
   }
 
-  (function(){
-    var teste = localStorage.getItem('TeamOne');
+  (function() {
+    var teste = localStorage.getItem('TimeUm');
     if(!teste){}
     else
     {
-      $('#teamOne').html(localStorage.getItem('TeamOne'));
-      $('#teamTwo').html(localStorage.getItem('TeamTwo'));
+      $('#timeUm').html(localStorage.getItem('TimeUm'));
+      $('#timeDois').html(localStorage.getItem('TimeDois'));
       $('#nome').val(localStorage.getItem('Invocador')).select();
       $('#server').val(localStorage.getItem('Servidor'));
     }
@@ -299,11 +303,11 @@
   $('input').keypress(function(e) {
     if(e.which == 13)
     { 
-      execute(); 
+      executar(); 
       $('button').focus();
     }
   })
   $('button').on('click', function(){
-    execute()
+    executar()
   });
 </script>
