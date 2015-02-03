@@ -23,6 +23,9 @@ gem 'ionicons-rails'
 # API
 gem 'unirest'
 
+# React
+gem 'react-rails', github: 'reactjs/react-rails', branch: 'master'
+
 group :development, :test do
   gem 'byebug'
   gem 'spring'
