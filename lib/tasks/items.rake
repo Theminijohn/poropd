@@ -39,10 +39,26 @@ task import_items: [:environment] do
 end
 
 
+# Item Description ####
+#######################
 
+# <stats>
+#   +500 Health <br>
+#   +10% Cooldown Reduction
+# </stats>
 
+# <br>
+# <br>
 
+# <unique>
+#   UNIQUE Passive - Tenacity:
+# </unique> 
 
+# Reduces the duration of stuns, slows, taunts, fears, silences, blinds, polymorphs, and immobilizes by 35%.
 
-# Item image
-# http://ddragon.leagueoflegends.com/cdn/4.20.1/img/item/{item.id}.png 
+# <br>
+# <br>
+
+# <i>
+#   (Unique Passives with the same name don't stack.)
+# </i>

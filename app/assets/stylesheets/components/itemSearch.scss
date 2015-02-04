@@ -1,3 +1,5 @@
+@import 'colors';
+
 .ItemSearch {
   text-align: center;
   color: #7B8585;
@@ -16,7 +18,7 @@ ul.ItemSearchList {
   text-align: left;
   margin: 0;
   padding: 0;
-  li{
+  li {
     display: block;
     padding: 15px 20px;
     background-color: #F8F8F8;
@@ -30,7 +32,32 @@ ul.ItemSearchList {
       color: #969d9d;
     }
     &:hover{
-      background-color:#d8f2f1;
+      background-color: lighten($poro_color, 40%);
+    }
+    &:first-child {
+      border-radius: 3px 3px 0 0;
+    }
+    &:last-child {
+      border-radius: 0 0 3px 3px;
+    }
+    .media {
+      a {
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 3px;
+        }
+      }
+      .media-body {
+        font-size: 12px;
+        .media-heading {
+          font-size: 14px;
+          font-weight: bold;
+        }
+        passive {
+          margin-top: 5px;
+        }
+      }
     }
   }
 }
