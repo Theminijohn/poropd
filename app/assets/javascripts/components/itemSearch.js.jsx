@@ -1,77 +1,88 @@
 /** @jsx React.DOM */
 
-// Let's create a "real-time search" component
+var ItemSearch = React.createClass({
 
-var SearchExample = React.createClass({
+  loadItems: function() {
+    $.ajax({
+      url: '/items.json',
+      dataType: 'json',
+      success: function(data) {
+        this.setState({items: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('#GET Error', status, err.toString());
+      }.bind(this)
+    });
+  },
 
-    getInitialState: function(){
-      return { searchString: '' };
-    },
+  getInitialState: function(){
+    return { 
+      searchString: '', 
+      items: []
+    };
+  },
 
-    handleChange: function(e){
-      // If you comment out this line, the text box will not change its value.
-      // This is because in React, an input cannot change independently of the value
-      // that was assigned to it. In our case this is this.state.searchString.
-      this.setState({searchString:e.target.value});
-    },
+  componentDidMount: function() {
+    this.loadItems();
+  },
 
-    render: function() {
+  handleChange: function(e){
+    // If I comment out this line, the text box will not change its value.
+    // This is because in React, an input cannot change independently of the value
+    // that was assigned to it. In my case this is this.state.searchString.
+    this.setState({searchString:e.target.value});
+  },
 
-      var libraries = this.props.items,
-          searchString = this.state.searchString.trim().toLowerCase();
+  render: function() {
 
-      if(searchString.length > 0){
-        // We are searching. Filter the results.
-        libraries = libraries.filter(function(l){
-            return l.name.toLowerCase().match( searchString );
-        });
-      }
+    var items        = this.state.items,
+        searchString = this.state.searchString.trim().toLowerCase();
 
-      return (
-        <div>
-          <input type="text" className="form-control ItemSearch" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here" />
-
-          <ul className="ItemSearchList"> 
-
-            { libraries.map(function(l){
-              return (
-                <li>{l.name} <a href={l.url}>{l.url}</a></li>
-              )
-            }) }
-
-          </ul>
-        </div>
-      )
-
+    if(searchString.length > 0){
+      // We are searching. Filter the results.
+      items = items.filter(function(l){
+        return l.name.toLowerCase().match( searchString );
+      });
     }
+
+    return (
+      <div>
+        <input type="text" className="form-control ItemSearch" value={this.state.searchString} onChange={this.handleChange} placeholder="Search Items" />
+
+        <ul className="ItemSearchList"> 
+          { 
+            items.slice(0,3).map(function(item){
+              return (
+                <li key={item.id} >
+                  <div className="media">
+                    <div className="media-left">
+                      <a href="#">
+                        <img className="media-object" src={item.image} />
+                      </a>
+                    </div>
+                    <div className="media-body">
+                      <h4 className="media-heading">{item.name}</h4>
+                      {item.description}
+                    </div>
+                  </div>
+                </li>
+              )
+            }) 
+          }
+        </ul>
+      </div>
+    )
+
+  }
 });
 
-                                                                                                                                                             
-var libraries = [
 
-    { name: 'Backbone.js', url: 'http://documentcloud.github.io/backbone/'},
-    { name: 'AngularJS', url: 'https://angularjs.org/'},
-    { name: 'jQuery', url: 'http://jquery.com/'},
-    { name: 'Prototype', url: 'http://www.prototypejs.org/'},
-    { name: 'React', url: 'http://facebook.github.io/react/'},
-    { name: 'Ember', url: 'http://emberjs.com/'},
-    { name: 'Knockout.js', url: 'http://knockoutjs.com/'},
-    { name: 'Dojo', url: 'http://dojotoolkit.org/'},
-    { name: 'Mootools', url: 'http://mootools.net/'},
-    { name: 'Underscore', url: 'http://documentcloud.github.io/underscore/'},
-    { name: 'Lodash', url: 'http://lodash.com/'},
-    { name: 'Moment', url: 'http://momentjs.com/'},
-    { name: 'Express', url: 'http://expressjs.com/'},
-    { name: 'Koa', url: 'http://koajs.com/'},
-
-];
-
-// Render the SearchExample component on the page
+// Render the ItemSearch component on the page
 $(document).on("page:change", function() {
   var $content = $("#currentGameBox");
   if ($content.length > 0) {
     React.render(
-      <SearchExample items={ libraries } />,
+      <ItemSearch />,
       document.getElementById('searchItem')
     );
   }
