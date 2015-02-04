@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :accounts
+
   # Poro King
   root 'streamers#index'
 

@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>League ign:</strong>
+  <%= @account.league_ign %>
+</p>
+
+<p>
+  <strong>League:</strong>
+  <%= @account.league_id %>
+</p>
+
+<p>
+  <strong>Division:</strong>
+  <%= @account.division %>
+</p>
+
+<p>
+  <strong>Tier:</strong>
+  <%= @account.tier %>
+</p>
+
+<p>
+  <strong>Server:</strong>
+  <%= @account.server %>
+</p>
+
+<p>
+  <strong>League points:</strong>
+  <%= @account.league_points %>
+</p>
+
+<p>
+  <strong>Wins:</strong>
+  <%= @account.wins %>
+</p>
+
+<p>
+  <strong>Losses:</strong>
+  <%= @account.losses %>
+</p>
+
+<p>
+  <strong>Is inactive:</strong>
+  <%= @account.is_inactive %>
+</p>
+
+<p>
+  <strong>Is veteran:</strong>
+  <%= @account.is_veteran %>
+</p>
+
+<p>
+  <strong>Is fresh blood:</strong>
+  <%= @account.is_fresh_blood %>
+</p>
+
+<p>
+  <strong>Is hot streak:</strong>
+  <%= @account.is_hot_streak %>
+</p>
+
+<p>
+  <strong>Streamer:</strong>
+  <%= @account.streamer_id %>
+</p>
+
+<%= link_to 'Edit', edit_account_path(@account) %> |
+<%= link_to 'Back', accounts_path %>

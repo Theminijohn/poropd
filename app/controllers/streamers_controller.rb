@@ -69,6 +69,6 @@ class StreamersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def streamer_params
-      params.require(:streamer).permit(:twitch_username, :name, :server, :slug, :league_ign, :league_id, :division, :tier, :league_points, :current_wins, :current_losses, :is_hot_streak, :is_veteran, :is_fresh_blood, :is_inactive)
+      params.require(:streamer).permit(:twitch_username, :name, :slug, :user_id)
     end
 end

@@ -1,0 +1,69 @@
+<%= form_for(@account) do |f| %>
+  <% if @account.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@account.errors.count, "error") %> prohibited this account from being saved:</h2>
+
+      <ul>
+      <% @account.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :league_ign %><br>
+    <%= f.text_field :league_ign %>
+  </div>
+  <div class="field">
+    <%= f.label :league_id %><br>
+    <%= f.number_field :league_id %>
+  </div>
+  <div class="field">
+    <%= f.label :division %><br>
+    <%= f.text_field :division %>
+  </div>
+  <div class="field">
+    <%= f.label :tier %><br>
+    <%= f.text_field :tier %>
+  </div>
+  <div class="field">
+    <%= f.label :server %><br>
+    <%= f.text_field :server %>
+  </div>
+  <div class="field">
+    <%= f.label :league_points %><br>
+    <%= f.number_field :league_points %>
+  </div>
+  <div class="field">
+    <%= f.label :wins %><br>
+    <%= f.number_field :wins %>
+  </div>
+  <div class="field">
+    <%= f.label :losses %><br>
+    <%= f.number_field :losses %>
+  </div>
+  <div class="field">
+    <%= f.label :is_inactive %><br>
+    <%= f.check_box :is_inactive %>
+  </div>
+  <div class="field">
+    <%= f.label :is_veteran %><br>
+    <%= f.check_box :is_veteran %>
+  </div>
+  <div class="field">
+    <%= f.label :is_fresh_blood %><br>
+    <%= f.check_box :is_fresh_blood %>
+  </div>
+  <div class="field">
+    <%= f.label :is_hot_streak %><br>
+    <%= f.check_box :is_hot_streak %>
+  </div>
+  <div class="field">
+    <%= f.label :streamer_id %><br>
+    <%= f.number_field :streamer_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
