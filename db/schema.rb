@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150204184001) do
+ActiveRecord::Schema.define(version: 20150204185346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,20 +24,40 @@ ActiveRecord::Schema.define(version: 20150204184001) do
     t.string   "division_name"
     t.integer  "wins"
     t.integer  "losses"
+    t.integer  "total_champion_kills"
+    t.integer  "total_minion_kills"
+    t.integer  "total_turrets_killed"
+    t.integer  "total_neutral_minions_killed"
+    t.integer  "total_assists"
     t.integer  "league_id"
     t.integer  "league_points"
-    t.boolean  "is_veteran",     default: false
-    t.boolean  "is_inactive",    default: false
-    t.boolean  "is_hot_streak",  default: false
-    t.boolean  "is_fresh_blood", default: false
+    t.boolean  "is_veteran",                   default: false
+    t.boolean  "is_inactive",                  default: false
+    t.boolean  "is_hot_streak",                default: false
+    t.boolean  "is_fresh_blood",               default: false
     t.integer  "streamer_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
   end
 
   add_index "accounts", ["league_id"], name: "index_accounts_on_league_id", using: :btree
   add_index "accounts", ["league_ign"], name: "index_accounts_on_league_ign", using: :btree
   add_index "accounts", ["streamer_id"], name: "index_accounts_on_streamer_id", using: :btree
+
+  create_table "active_admin_comments", force: :cascade do |t|
+    t.string   "namespace"
+    t.text     "body"
+    t.string   "resource_id",   null: false
+    t.string   "resource_type", null: false
+    t.integer  "author_id"
+    t.string   "author_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false

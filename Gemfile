@@ -25,6 +25,7 @@ gem 'ionicons-rails'
 gem 'devise'
 gem 'cancancan', '~> 1.10'
 gem 'rolify', '~> 3.5.2'
+gem 'activeadmin', github: 'activeadmin'
 
 # API
 gem 'unirest'

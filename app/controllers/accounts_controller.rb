@@ -61,6 +61,15 @@ class AccountsController < ApplicationController
     end
   end
 
+  def update_information
+    @account = Account.find(params[:id])
+    if @account.update_information
+      redirect_to :back, notice: 'Account was updated successfully!'
+    else
+      redirect_to root_path, notice: 'There was a problem.'
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_account
@@ -70,6 +79,8 @@ class AccountsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
       params.require(:account).permit(:league_ign, :league_id, :division, :tier, :server, :league_points, 
-        :wins, :losses, :is_inactive, :is_veteran, :is_fresh_blood, :is_hot_streak, :streamer_id, :division_name)
+        :wins, :losses, :is_inactive, :is_veteran, :is_fresh_blood, :is_hot_streak, :streamer_id, :division_name,
+        :total_champion_kills, :total_minion_kills, :total_turrets_killed, :total_neutral_minions_killed, 
+        :total_assists)
     end
 end
