@@ -10,8 +10,18 @@ class CreateAccounts < ActiveRecord::Migration
       t.string  :division_name
       t.integer :wins
       t.integer :losses
+
+      # Aggregated Stats
+      t.integer :total_champion_kills
+      t.integer :total_minion_kills
+      t.integer :total_turrets_killed
+      t.integer :total_neutral_minions_killed
+      t.integer :total_assists
+      
       t.integer :league_id
       t.integer :league_points
+
+      # Division Badges
       t.boolean :is_veteran, default: false
       t.boolean :is_inactive, default: false
       t.boolean :is_hot_streak, default: false

@@ -11,7 +11,11 @@ Rails.application.routes.draw do
   resources :items
 
   # Acctounts
-  resources :accounts
+  resources :accounts do
+    member do 
+      get :update_information
+    end
+  end
 
   # Devise
   devise_for :users, path: '',

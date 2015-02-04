@@ -24,15 +24,20 @@ ActiveRecord::Schema.define(version: 20150204185346) do
     t.string   "division_name"
     t.integer  "wins"
     t.integer  "losses"
+    t.integer  "total_champion_kills"
+    t.integer  "total_minion_kills"
+    t.integer  "total_turrets_killed"
+    t.integer  "total_neutral_minions_killed"
+    t.integer  "total_assists"
     t.integer  "league_id"
     t.integer  "league_points"
-    t.boolean  "is_veteran",     default: false
-    t.boolean  "is_inactive",    default: false
-    t.boolean  "is_hot_streak",  default: false
-    t.boolean  "is_fresh_blood", default: false
+    t.boolean  "is_veteran",                   default: false
+    t.boolean  "is_inactive",                  default: false
+    t.boolean  "is_hot_streak",                default: false
+    t.boolean  "is_fresh_blood",               default: false
     t.integer  "streamer_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
   end
 
   add_index "accounts", ["league_id"], name: "index_accounts_on_league_id", using: :btree
