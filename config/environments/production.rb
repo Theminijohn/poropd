@@ -79,4 +79,7 @@ Rails.application.configure do
 
   # React.js
   config.react.variant = :production
+
+  # Action Mailer
+  config.action_mailer.default_url_options = { host: 'http://poropd.herokuapp.com/' }
 end

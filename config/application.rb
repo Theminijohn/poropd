@@ -48,6 +48,9 @@ module Poropd
         request_specs: false
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
+
+    # Heroku
+    config.assets.initialize_on_precompile = false
     
   end
 end

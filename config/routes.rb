@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :accounts
-
-  # Poro King
+  # Poro Executive Officer
   root 'streamers#index'
 
   # Streamers
@@ -10,5 +8,15 @@ Rails.application.routes.draw do
 
   # Items
   resources :items
+
+  # Acctounts
+  resources :accounts
+
+  # Devise
+  devise_for :users, path: '',
+    path_names: {
+      sign_in: 'login',
+      sign_out: 'logout',
+      sign_up: 'register' }
 
 end
