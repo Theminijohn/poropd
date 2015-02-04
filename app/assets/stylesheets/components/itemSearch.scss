@@ -49,9 +49,13 @@ ul.ItemSearchList {
         }
       }
       .media-body {
+        font-size: 12px;
         .media-heading {
           font-size: 14px;
           font-weight: bold;
+        }
+        passive {
+          margin-top: 5px;
         }
       }
     }

@@ -60,9 +60,9 @@ var ItemSearch = React.createClass({
                         <img className="media-object" src={item.image} />
                       </a>
                     </div>
-                    <div className="media-body">
+                    <div className="media-body" >
                       <h4 className="media-heading">{item.name}</h4>
-                      {item.description}
+                      <div dangerouslySetInnerHTML={{__html: item.description}}></div>
                     </div>
                   </div>
                 </li>
