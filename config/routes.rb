@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  ActiveAdmin.routes(self)
   # Poro Executive Officer
   root 'streamers#index'
 
