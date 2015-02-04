@@ -39,15 +39,42 @@
 
 
 
-#timeUm, #timeDois{clear:both;}
-#timeUm .summoner{background-color: #06a;background: -webkit-gradient(linear,0% 0,0% 100%,color-stop(0,#06a),color-stop(1.0,#00416d));}
-#timeDois .summoner{background-color: #B31262;background: -webkit-gradient(linear,0% 0,0% 100%,color-stop(0,#B31262),color-stop(1.0,#6D0E2E));}
-.summoner{position:relative; text-decoration:none; background-position: 355px 0; padding:10px; border-radius:5px; width:200px; height:150px; overflow:hidden; margin:2px; display: inline-block;}
+#teamOne, #teamTwo{clear:both;}
+
+#teamOne .summoner{
+  background-color: #06a;
+  background: -webkit-gradient(linear,0% 0,0% 100%,color-stop(0,#06a),color-stop(1.0,#00416d));
+}
+
+#teamTwo .summoner{
+  background-color: #B31262;
+  background: -webkit-gradient(linear,0% 0,0% 100%,color-stop(0,#B31262),color-stop(1.0,#6D0E2E));
+}
+
+.summoner{
+  position:relative; 
+  text-decoration:none; 
+  background-position: 355px 0; 
+  padding:10px; border-radius:5px; 
+  overflow:hidden; 
+  margin:2px; 
+  display: inline-block;
+  h3{
+    margin:0;
+    text-align: left;
+    font-size:25px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  h4{
+    font-size: 12px;
+    clear: both;
+    margin: 0;
+  }
+}
+
 .champ{width:30px;height:30px;float:left;margin-right:10px;position:relative;}
-.summoner *{color:#fff; text-shadow: 0 0 10px rgba(0,0,0,0.5), 0 0 10px rgba(0,0,0,0.5), 0 0 10px rgba(0,0,0,0.5);}
-.summoner h3{margin:0;text-align: left;}
-.summoner h3{font-size:25px;white-space: nowrap;text-overflow: ellipsis;}
-.summoner h4{font-size: 12px;clear: both;margin: 0;}
+
 .summoner ul{list-style:none;margin:5px;padding:0;}
 .summoner li{float:left;text-align:center;width:33%;}
 .summoner strong{display:inline-block;display:block;}
