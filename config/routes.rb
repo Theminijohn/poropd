@@ -6,4 +6,7 @@ Rails.application.routes.draw do
   # Streamers
   resources :streamers
 
+  # Items
+  resources :items
+
 end

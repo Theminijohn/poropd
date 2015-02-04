@@ -13,6 +13,7 @@ gem 'jquery-turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'friendly_id', '~> 5.1.0'
 gem 'rails_config'
+gem 'ruby-progressbar'
 
 # Design
 gem 'bootstrap-sass', '~> 3.3.1'
@@ -22,6 +23,7 @@ gem 'ionicons-rails'
 
 # API
 gem 'unirest'
+gem 'ruby-lol'
 
 # React
 gem 'react-rails', github: 'reactjs/react-rails', branch: 'master'
