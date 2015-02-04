@@ -23,6 +23,8 @@ gem 'ionicons-rails'
 
 # Users & Auth
 gem 'devise'
+gem 'cancancan', '~> 1.10'
+gem 'rolify', '~> 3.5.2'
 
 # API
 gem 'unirest'
