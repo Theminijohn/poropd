@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150202083716) do
+ActiveRecord::Schema.define(version: 20150204135411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,22 @@ ActiveRecord::Schema.define(version: 20150202083716) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "items", force: :cascade do |t|
+    t.integer  "league_id"
+    t.string   "plaintext"
+    t.string   "name"
+    t.string   "group"
+    t.text     "description"
+    t.string   "image"
+    t.string   "slug"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "items", ["league_id"], name: "index_items_on_league_id", using: :btree
+  add_index "items", ["name"], name: "index_items_on_name", using: :btree
+  add_index "items", ["slug"], name: "index_items_on_slug", using: :btree
 
   create_table "streamers", force: :cascade do |t|
     t.string   "name"

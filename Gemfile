@@ -23,6 +23,7 @@ gem 'ionicons-rails'
 
 # API
 gem 'unirest'
+gem 'ruby-lol'
 
 # React
 gem 'react-rails', github: 'reactjs/react-rails', branch: 'master'
