@@ -22,7 +22,15 @@ var CurrentGame = React.createClass({
   },
 
   getInitialState: function(){
-    return {data: []};
+    return {data: 
+      {
+        gameMode: '',
+        gameType: '',
+        platformId: '',
+        bannedChampions: [],
+        participants: []
+      }
+    };
   },
 
   componentDidMount: function() {
@@ -47,16 +55,29 @@ var PlayerList = React.createClass({
   // the data from parent Component
 
   render: function() {
-
-    console.log(this.props.data);
+    var gameParticipants = this.props.data.participants.map(function(player) {
+      return (
+        <Player player={player} />
+      )
+    })
 
     return (
-      <div className="PlayerList">
-        I'm the Player List {this.props.data}
-        <Player author="The Mini John" />
-      </div>
-    );
+      <table className="playerList table">
+        <thead>
+          <th>
+            Champion
+          </th>
+          <th>
+            Summoner Name
+          </th>
+        </thead>
+        <tbody>
+          {gameParticipants}
+        </tbody>
+      </table>
+    )
   }
+
 });
 
 
@@ -64,9 +85,14 @@ var PlayerList = React.createClass({
 var Player = React.createClass({
   render: function() {
     return(
-      <div className="Player">
-        I'm a individual Player
-      </div>
+      <tr className="Player">
+        <th>
+          {this.props.player.championId}
+        </th>
+        <th>
+          {this.props.player.summonerName}
+        </th>
+      </tr>
     )
   }
 });
@@ -78,7 +104,7 @@ $(document).on("page:change", function() {
   var $content = $("#currentGameBox");
   if ($content.length > 0) {
     React.render(
-      <CurrentGame data="/example.json" />,
+      <CurrentGame />,
       document.getElementById('currentGameBox')
     );
   }
