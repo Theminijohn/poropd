@@ -28,7 +28,6 @@ gem 'rolify', '~> 3.5.2'
 gem 'activeadmin', github: 'activeadmin'
 
 # API
-gem 'unirest'
 gem 'ruby-lol'
 
 # React
