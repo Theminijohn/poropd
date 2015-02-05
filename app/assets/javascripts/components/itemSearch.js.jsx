@@ -4,7 +4,7 @@ var ItemSearch = React.createClass({
 
   loadItems: function() {
     $.ajax({
-      url: '/items.json',
+      url: '/api/v1/items.json',
       dataType: 'json',
       success: function(data) {
         this.setState({items: data});
